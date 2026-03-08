@@ -30,7 +30,9 @@ public class SKUTaskList {
     private int getIndexOfSKUTask(String skuID) {
         int size = getSize();
         for (int i = 0; i < size; i++) {
-            if (skuTaskList.get(i).getSKUTaskID().equals(skuID)) return i;
+            if (skuTaskList.get(i).getSKUTaskID().equals(skuID)) {
+                return i;
+            }
         }
         return -1;
     }
