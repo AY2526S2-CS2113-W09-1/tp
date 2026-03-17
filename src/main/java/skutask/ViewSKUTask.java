@@ -10,12 +10,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
-
+/**
+ * Handles the logic for filtering and sorting tasks based on SKU ID, priority, or location.
+ * This class acts as a view processor to decouple the data storage from the presentation layer.
+ */
 public class ViewSKUTask {
     private String skuFilter;
     private String priorityFilter;
     private String locationFilter;
 
+    /**
+     * Processes and returns a list of tasks from the warehouse based on the currently set filters.
+     * Filters are applied in a specific order: SKU ID takes precedence, followed by Priority,
+     * then Location-based distance sorting.
+     *
+     * @param fullList The master list of all SKUs in the system used for location lookups.
+     * @param taskMap  A mapping of SKU IDs to their respective lists of tasks.
+     * @return A filtered or sorted list of {@code SKUTask} objects.
+     */
     public List<SKUTask> listTasks(SKUList fullList, HashMap<String, SKUTaskList> taskMap) {
         List<SKUTask> allTasks = new ArrayList<>();
         for (SKUTaskList taskList : taskMap.values()) {
@@ -59,7 +71,14 @@ public class ViewSKUTask {
         this.locationFilter = locationFilter;
     }
 
-
+    /**
+     * Calculates the distance between a task's physical location and a given point.
+     *
+     * @param task       The task whose location needs to be calculated.
+     * @param currentPos The starting position string (e.g., "A1").
+     * @param fullList   The master SKU list used to find the physical location of the task's SKU.
+     * @return The integer distance between the two points. Returns 0 if SKU is not found.
+     */
     public int calculateDistance(SKUTask task, String currentPos, SKUList fullList) {
         SKU parentSku = null;
         for (SKU s : fullList.getSKUList()) {
@@ -71,8 +90,6 @@ public class ViewSKUTask {
         if (parentSku == null) {
             return 0;
         }
-        ;
-
         String targetName = parentSku.getSKULocation().name();
         int targetX = targetName.charAt(0) - 'A';
         int targetY = Character.getNumericValue(targetName.charAt(1)) - 1;
