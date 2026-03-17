@@ -10,12 +10,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
-
+/**
+ * Handles the logic for filtering and sorting tasks based on SKU ID, priority, or location.
+ * This class acts as a view processor to decouple the data storage from the presentation layer.
+ */
 public class ViewSKUTask {
     private String skuFilter;
     private String priorityFilter;
     private String locationFilter;
 
+    /**
+     * Processes and returns a list of tasks from the warehouse based on the currently set filters.
+     * Filters are applied in a specific order: SKU ID takes precedence, followed by Priority,
+     * then Location-based distance sorting.
+     *
+     * @param fullList The master list of all SKUs in the system used for location lookups.
+     * @param taskMap  A mapping of SKU IDs to their respective lists of tasks.
+     * @return A filtered or sorted list of {@code SKUTask} objects.
+     */
     public List<SKUTask> listTasks(SKUList fullList, HashMap<String, SKUTaskList> taskMap) {
         List<SKUTask> allTasks = new ArrayList<>();
         for (SKUTaskList taskList : taskMap.values()) {
