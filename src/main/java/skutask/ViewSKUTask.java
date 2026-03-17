@@ -71,7 +71,14 @@ public class ViewSKUTask {
         this.locationFilter = locationFilter;
     }
 
-
+    /**
+     * Calculates the distance between a task's physical location and a given point.
+     *
+     * @param task       The task whose location needs to be calculated.
+     * @param currentPos The starting position string (e.g., "A1").
+     * @param fullList   The master SKU list used to find the physical location of the task's SKU.
+     * @return The integer distance between the two points. Returns 0 if SKU is not found.
+     */
     public int calculateDistance(SKUTask task, String currentPos, SKUList fullList) {
         SKU parentSku = null;
         for (SKU s : fullList.getSKUList()) {
@@ -83,8 +90,6 @@ public class ViewSKUTask {
         if (parentSku == null) {
             return 0;
         }
-        ;
-
         String targetName = parentSku.getSKULocation().name();
         int targetX = targetName.charAt(0) - 'A';
         int targetY = Character.getNumericValue(targetName.charAt(1)) - 1;
