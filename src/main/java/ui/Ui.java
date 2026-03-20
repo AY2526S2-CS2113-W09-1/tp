@@ -35,7 +35,7 @@ public class Ui {
     public static void printWelcome() {
         System.out.println(DIVIDER);
         System.out.println(LOGO);
-        System.out.println(" ItemTasker \u2014 CLI SKU Ticketing System");
+        System.out.println(" ItemTasker - CLI SKU Ticketing System");
         System.out.println(" Type a command to get started. Type 'help' for a list of commands.");
         System.out.println(DIVIDER);
     }
@@ -86,7 +86,7 @@ public class Ui {
     /** Prints the help reference listing all valid commands and their formats. */
     public static void printHelp() {
         System.out.println(DIVIDER);
-        System.out.println(" ITEMTASKER \u2014 COMMAND REFERENCE");
+        System.out.println(" ITEMTASKER - COMMAND REFERENCE");
         System.out.println(DIVIDER);
         System.out.println(" SKU MANAGEMENT");
         System.out.println("   addsku n/SKU_ID l/LOCATION          Add a SKU to the warehouse.");
