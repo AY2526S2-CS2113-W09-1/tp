@@ -5,11 +5,11 @@ __________________________________________________________________________
   | | | |_|  __/| | | | | |  | || (_| |\__ \|   <|  __/| |    
  |___| \__|\___||_| |_| |_|  |_| \__,_||___/|_|\_\\___||_|    
 
- ItemTasker â€? CLI SKU Ticketing System
+ ItemTasker ¡ª CLI SKU Ticketing System
  Type a command to get started. Type 'help' for a list of commands.
 __________________________________________________________________________
 > __________________________________________________________________________
- ITEMTASKER â€? COMMAND REFERENCE
+ ITEMTASKER ¡ª COMMAND REFERENCE
 __________________________________________________________________________
  SKU MANAGEMENT
    addsku n/SKU_ID l/LOCATION          Add a SKU to the warehouse.
