@@ -80,39 +80,39 @@ public class CommandRunner {
         assert cmd != null : "ParsedCommand should not be null";
 
         switch (cmd.getCommandWord()) {
-            case "addsku":
-                handleAddSku(cmd);
-                break;
-            case "deletesku":
-                handleDeleteSku(cmd);
-                break;
-            case "addskutask":
-                handleAddSkuTask(cmd);
-                break;
-            case "deletetask":
-                handleDeleteTask(cmd);
-                break;
-            case "marktask":
-                handleMarkTask(cmd);
-                break;
-            case "unmarktask":
-                handleUnmarkTask(cmd);
-                break;
-            case "listtasks":
-                handleListTasks(cmd);
-                break;
-            case "help":
-                Ui.printHelp();
-                break;
-            case "bye":
-            case "exit":
-                Ui.printGoodbye();
-                isRunning = false;
-                break;
-            case "":
-                break;
-            default:
-                Ui.printUnknownCommand(cmd.getCommandWord());
+        case "addsku":
+            handleAddSku(cmd);
+            break;
+        case "deletesku":
+            handleDeleteSku(cmd);
+            break;
+        case "addskutask":
+            handleAddSkuTask(cmd);
+            break;
+        case "deletetask":
+            handleDeleteTask(cmd);
+            break;
+        case "marktask":
+            handleMarkTask(cmd);
+            break;
+        case "unmarktask":
+            handleUnmarkTask(cmd);
+            break;
+        case "listtasks":
+            handleListTasks(cmd);
+            break;
+        case "help":
+            Ui.printHelp();
+            break;
+        case "bye":
+        case "exit":
+            Ui.printGoodbye();
+            isRunning = false;
+            break;
+        case "":
+            break;
+        default:
+            Ui.printUnknownCommand(cmd.getCommandWord());
         }
     }
 
