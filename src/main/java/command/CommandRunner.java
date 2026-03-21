@@ -1,4 +1,4 @@
-package ui;
+package command;
 
 import exception.EmptyListException;
 import exception.InvalidCommandException;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 
 import storage.Storage;
+import ui.Ui;
 
 /**
  * Receives parsed commands from the user input and routes them to specific
