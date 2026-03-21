@@ -4,17 +4,15 @@ show members
 hide empty members
 
 package "System Memory State (Step 4)" {
-    object "<u>runner:CommandRunner</u>" as runner
-    object "<u>skuList:SKUList</u>" as skuList
-    object "<u>taskMap:HashMap</u>" as taskMap
+    object "<u>runner:CommandRunner</u>" as runner LOGIC_COLOR
+    object "<u>skuList:SKUList</u>" as skuList MODEL_COLOR
 
-    object "<u>newSku:SKU</u>" as sku {
+    object "<u>newSku:SKU</u>" as sku MODEL_COLOR_T1 {
         skuID = "PALLET-A"
         skuLocation = Location.A1
     }
 }
 
 runner -down-> skuList
-runner -down-> taskMap
 skuList -down-> sku : contains >
 @enduml

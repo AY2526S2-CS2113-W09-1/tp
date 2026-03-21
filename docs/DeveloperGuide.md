@@ -12,11 +12,14 @@
 ### Add / Delete SKU Feature
 
 #### Implementation Details
-The Add and Delete SKU mechanism is facilitated by the `CommandRunner` component, which manages the application's core state across two primary data structures: the `SKUList` and a `HashMap<String, SKUTaskList>` named `taskMap`.
+### Add / Delete SKU Feature
+
+#### Implementation Details
+The Add and Delete SKU mechanism is facilitated by the `CommandRunner` component, which manages the application's core state through a single primary data structure: the `SKUList`. Following strict Object-Oriented encapsulation, there are no external maps; each `SKU` inherently manages its own `SKUTaskList`.
 
 The operations are exposed and handled internally via the following methods:
-* `CommandRunner#handleAddSku(ParsedCommand)` — Validates constraints, instantiates a new `SKU`, and initializes its task mapping.
-* `CommandRunner#handleDeleteSku(ParsedCommand)` — Removes the `SKU` from the inventory and purges its associated task list from the map.
+* `CommandRunner#handleAddSku(ParsedCommand)` — Validates constraints and delegates to `SKUList` to instantiate a new `SKU` (which automatically initializes its own internal task list).
+* `CommandRunner#handleDeleteSku(ParsedCommand)` — Removes the `SKU` from the inventory, which inherently purges all tasks associated with it.
 
 Given below is an example usage scenario demonstrating how the Add SKU mechanism behaves at each step.
 
@@ -28,32 +31,32 @@ Given below is an example usage scenario demonstrating how the Add SKU mechanism
 
 ![System Memory State Steps 1 to 3](plantUML/add-delete-sku/add-sku-step1-3.png)
 
-**Step 4.** The `SKUList#addSKU()` method is invoked. This method calls the `SKU` constructor, instantiating a new `SKU` object, and appends it to its internal `ArrayList`.
+**Step 4.** The `SKUList#addSKU()` method is invoked. This method calls the `SKU` constructor, instantiating a new `SKU` object. During instantiation, the `SKU` automatically generates an empty `SKUTaskList` for itself. The `SKU` is then appended to the internal `ArrayList`.
 
 ![System Memory State Step 4](plantUML/add-delete-sku/add-sku-step4.png)
 
-**Step 5.** Back in `handleAddSku()`, the `CommandRunner` explicitly instantiates a new, empty `SKUTaskList` and inserts it into the `taskMap`, using the uppercase SKU ID (`"PALLET-A"`) as the key. The UI then prints the success message.
+**Step 5.** Back in `handleAddSku()`, execution completes successfully. Control returns to the `Ui` to print the success message. The system's memory state now contains the new `SKU`, fully equipped to accept tasks without requiring any external mapping.
 
 ![System Memory State Step 5](plantUML/add-delete-sku/add-sku-step5.png)
 
-*Note: The `deletesku` command operates in the exact reverse, calling `SKUList#deleteSKU()` to remove the object from the array and `taskMap.remove()` to purge the associated task list.*
+*Note: The `deletesku` command operates by simply calling `SKUList#deleteSKU()` to remove the object from the array. Due to encapsulation, dropping the `SKU` object automatically garbage-collects its associated `SKUTaskList`, preventing memory leaks.*
 
 The following sequence diagram shows the flow of adding a SKU:
 ![Add SKU Sequence Diagram](plantUML/add-delete-sku/add-sku-sequence.png)
 
 
-The following sequence diagram shows the architecture:
-![Add SKU Sequence Diagram](plantUML/add-delete-sku/add-sku-architecture.png)
+The following class diagram shows the architecture:
+![Add SKU Class Diagram](plantUML/add-delete-sku/add-sku-architecture.png)
 
 #### Design considerations:
 
 **Aspect: How SKU tasks are stored and mapped to their parent SKU:**
-* **Alternative 1 (Current Implementation):** The system maintains a global `HashMap<String, SKUTaskList>` inside the `CommandRunner` to map SKU IDs to their tasks.
-    * *Pros:* Fast, O(1) time complexity when looking up tasks for a specific SKU during filtering or task addition.
-    * *Cons:* Severe data duplication and poor encapsulation. The `SKU` class already initializes its own internal `SKUTaskList` in its constructor, which the `CommandRunner` effectively ignores by managing a redundant, external map. This requires the `CommandRunner` to remember to synchronize deletions across two separate data structures.
-* **Alternative 2 (Slower lookup time):** Remove the `HashMap` from `CommandRunner` entirely. Force all task operations to access the `SKUTaskList` directly through the `SKU` object (e.g., `skuList.getSku("PALLET-A").getTaskList().addTask(...)`).
-    * *Pros:* A SKU is solely responsible for its own tasks. Memory overhead is reduced by removing the redundant map.
-    * *Cons:* Slightly slower lookup times, as finding a task requires iterating through the `SKUList` to find the parent SKU first (O(n) complexity).
+* **Current Implementation:** Require all task operations to access the `SKUTaskList` directly through the `SKU` object residing in the `SKUList`.
+  * *Pros:* High cohesion and strict encapsulation. A SKU is solely responsible for its own tasks. Memory overhead is reduced, and state mutations are safer as there is no need to synchronize deletions across multiple data structures.
+  * *Cons:* Slightly slower lookup times, as finding a task requires iterating through the `SKUList` to locate the parent SKU first (O(n) complexity).
+* **Alternative:** Maintain a `HashMap<String, SKUTaskList>` inside the `CommandRunner` to map SKU IDs to their tasks.
+  * *Pros:* Fast, O(1) time complexity when looking up tasks for a specific SKU during filtering or task addition.
+  * *Cons:* Severe data duplication and poor encapsulation. This requires the `CommandRunner` to juggle references and manually synchronize deletions across two separate data structures, leading to an architecture prone to orphaned tasks if not correctly synced.
 
 
 ## Appendix A: Product Scope
