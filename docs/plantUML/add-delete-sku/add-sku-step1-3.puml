@@ -1,0 +1,17 @@
+@startuml
+!include ../style.puml
+show members
+hide empty members
+
+package "System Memory State (Steps 1 to 3)" {
+    object "<u>runner:CommandRunner</u>" as runner LOGIC_COLOR
+    object "<u>skuList:SKUList</u>" as skuList MODEL_COLOR
+}
+
+runner -down-> skuList
+
+note right of runner
+  ParsedCommand and Location
+  are local variables.
+end note
+@enduml

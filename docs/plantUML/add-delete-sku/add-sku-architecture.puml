@@ -1,0 +1,25 @@
+@startuml
+!include ../style.puml
+skinparam arrowThickness 1.1
+
+class CommandRunner LOGIC_COLOR {
+  - isRunning: boolean
+  + handleAddSku(cmd: ParsedCommand): void
+}
+
+class SKUList MODEL_COLOR {
+  + addSKU(skuID: String, skuLocation: Location): void
+}
+
+class SKU MODEL_COLOR_T1 {
+  - skuID: String
+  - skuLocation: Location
+}
+
+class SKUTaskList MODEL_COLOR_T2 {
+}
+
+CommandRunner -down-> "1" SKUList : skuList
+SKUList -down-> "*" SKU : skuList
+SKU -down-> "1" SKUTaskList : skuTaskList
+@enduml

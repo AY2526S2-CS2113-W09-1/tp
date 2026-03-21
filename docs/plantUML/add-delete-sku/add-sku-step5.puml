@@ -1,0 +1,21 @@
+@startuml
+!include ../style.puml
+show members
+hide empty members
+
+package "System Memory State (Step 5)" {
+    object "<u>runner:CommandRunner</u>" as runner LOGIC_COLOR
+    object "<u>skuList:SKUList</u>" as skuList MODEL_COLOR
+
+    object "<u>newSku:SKU</u>" as sku MODEL_COLOR_T1 {
+        skuID = "PALLET-A"
+        skuLocation = Location.A1
+    }
+
+    object "<u>emptyList:SKUTaskList</u>" as taskList MODEL_COLOR_T2
+}
+
+runner -down-> skuList
+skuList -down-> sku : contains >
+sku -down-> taskList : owns >
+@enduml
