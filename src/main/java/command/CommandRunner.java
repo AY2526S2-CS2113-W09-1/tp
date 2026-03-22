@@ -76,6 +76,9 @@ public class CommandRunner {
         case "addskutask":
             handleAddSkuTask(cmd);
             break;
+        case "edittask":
+            handleEditTask(cmd);
+            break;
         case "deletetask":
             handleDeleteTask(cmd);
             break;
@@ -212,6 +215,62 @@ public class CommandRunner {
                 + (description.isEmpty() ? "" : " | Desc: " + description));
     }
 
+    /**
+     * Parses arguments and edits the fields of an existing task.
+     * At least one of d/, p/, or t/ must be provided.
+     *
+     * @param cmd The parsed command containing the SKU ID, task index, and fields to update.
+     * @throws InvalidIndexException If the provided index is out of bounds or not a number.
+     * @throws SKUNotFoundException  If the specified SKU does not exist in the warehouse.
+     */
+    private void handleEditTask(ParsedCommand cmd) throws InvalidIndexException, SKUNotFoundException {
+        String skuId = cmd.getArg("n");
+        String indexStr = cmd.getArg("i");
+
+        if (skuId == null || indexStr == null) {
+            Ui.printError("Usage: edittask n/SKU_ID i/TASK_INDEX [d/DATE] [p/PRIORITY] [t/DESC]");
+            return;
+        }
+
+        String newDate = cmd.getArg("d");
+        String newPriorityStr = cmd.getArg("p");
+        String newDesc = cmd.getArg("t");
+
+        if (newDate == null && newPriorityStr == null && newDesc == null) {
+            Ui.printError("Provide at least one field to update: d/DATE, p/PRIORITY, or t/DESC.");
+            return;
+        }
+
+        int index = parseIndex(indexStr);
+        if (index == -1) {
+            return;
+        }
+
+        SKU targetSku = findSku(skuId);
+        if (targetSku == null) {
+            Ui.printError("SKU not found: " + skuId);
+            return;
+        }
+
+        SKUTaskList taskList = targetSku.getSKUTaskList();
+        if (index < 1 || index > taskList.getSize()) {
+            throw new InvalidIndexException(index, skuId);
+        }
+
+        skutask.Priority newPriority = null;
+        if (newPriorityStr != null) {
+            try {
+                newPriority = skutask.Priority.valueOf(newPriorityStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                Ui.printError("Invalid priority '" + newPriorityStr + "'. Use HIGH, MEDIUM, or LOW.");
+                return;
+            }
+        }
+
+        taskList.editSKUTask(index, newDate, newPriority, newDesc);
+        SKUTask updated = taskList.getSKUTaskList().get(index - 1);
+        Ui.printSuccess("Updated task #" + index + " for SKU [" + skuId.toUpperCase() + "]: " + updated);
+    }
     /**
      * Parses arguments and deletes a specific task from an SKU based on its index.
      *

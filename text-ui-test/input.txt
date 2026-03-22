@@ -18,6 +18,11 @@ addskutask n/GHOST-SKU d/2026-04-01 p/HIGH
 addskutask n/PALLET-A d/2026-04-01 p/URGENT
 addskutask n/PALLET-A
 
+edittask n/PALLET-A i/1 d/2026-05-01
+edittask n/PALLET-A i/1 p/MEDIUM t/updated desc
+edittask n/PALLET-A i/1
+edittask n/PALLET-A i/1 p/INVALID
+
 marktask n/PALLET-A i/1
 marktask n/PALLET-B i/1
 unmarktask n/PALLET-A i/1
