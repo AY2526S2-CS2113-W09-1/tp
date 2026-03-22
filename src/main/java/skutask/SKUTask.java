@@ -80,6 +80,24 @@ public class SKUTask {
         this.taskDescription = taskDescription;
     }
 
+    /**
+     * Sets the due date of this task.
+     *
+     * @param dueDate The new due date to assign.
+     */
+    public void setSKUTaskDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    /**
+     * Sets the priority of this task.
+     *
+     * @param priority The new priority to assign.
+     */
+    public void setSKUTaskPriority(Priority priority) {
+        this.priority = priority;
+    }
+
 
     /**
      * Returns the unique identifier of this task.

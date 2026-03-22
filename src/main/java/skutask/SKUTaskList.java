@@ -142,6 +142,28 @@ public class SKUTaskList {
     }
 
     /**
+     * Edits the fields of the task at the given 1-based index.
+     * Only non-null values are applied — omitted fields remain unchanged.
+     *
+     * @param taskIndex   The index of the task to edit.
+     * @param newDueDate  The new due date, or null to leave unchanged.
+     * @param newPriority The new priority, or null to leave unchanged.
+     * @param newDesc     The new description, or null to leave unchanged.
+     */
+    public void editSKUTask(int taskIndex, String newDueDate, Priority newPriority, String newDesc) {
+        SKUTask task = skuTaskList.get(taskIndex - 1);
+        if (newDueDate != null) {
+            task.setSKUTaskDueDate(newDueDate);
+        }
+        if (newPriority != null) {
+            task.setSKUTaskPriority(newPriority);
+        }
+        if (newDesc != null) {
+            task.setSKUTaskDescription(newDesc);
+        }
+    }
+
+    /**
      * Marks the task at the given 1-based index as done.
      *
      * @param taskIndex The 1-based index of the task to mark.

@@ -95,6 +95,8 @@ public class Ui {
         System.out.println(" TASK MANAGEMENT");
         System.out.println("   addskutask n/SKU_ID d/DUE_DATE      Add a HIGH priority task (default).");
         System.out.println("         [p/PRIORITY] [t/DESC]         Optional: priority and description.");
+        System.out.println("   edittask n/SKU_ID i/TASK_INDEX      Edit a task's due date, priority, or description.");
+        System.out.println("    [d/DUE_DATE] [p/PRIORITY] [t/DESC] Note: At least one field required.");
         System.out.println("   deletetask n/SKU_ID i/TASK_INDEX    Delete task at given index.");
         System.out.println("   marktask n/SKU_ID i/TASK_INDEX      Mark a task as completed.");
         System.out.println("   unmarktask n/SKU_ID i/TASK_INDEX    Unmark a completed task.");
