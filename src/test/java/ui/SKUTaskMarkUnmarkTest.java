@@ -74,7 +74,8 @@ public class SKUTaskMarkUnmarkTest {
     public void marktask_alreadyMarked_showsError() throws ItemTaskerException, IOException {
         runner.run(buildCommand("marktask", "SKU-001", "1"));
         runner.run(buildCommand("marktask", "SKU-001", "1"));
-        assertTrue(outputStream.toString().contains("[INFO]") && outputStream.toString().contains("already marked as done"));
+        String output = outputStream.toString();
+        assertTrue(output.contains("[INFO]") && output.contains("already marked as done"));
     }
 
     @Test
