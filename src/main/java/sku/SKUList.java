@@ -1,12 +1,15 @@
 package sku;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Represents a list of Stock Keeping Units (SKUs).
  * Provides operations to manage the collection of SKUs, such as adding and deleting.
  */
 public class SKUList {
+    private static final Logger LOGGER = Logger.getLogger(SKUList.class.getName());
     private final ArrayList<SKU> skuList;
 
     /**
@@ -43,7 +46,7 @@ public class SKUList {
     public void addSKU(String skuID, Location skuLocation) {
         SKU sku = new SKU(skuID, skuLocation);
         skuList.add(sku);
-
+        LOGGER.log(Level.INFO, "Successfully added SKU: [" + skuID + "] at Location: " + skuLocation);
         assert skuList.size() > 0 : "SKUList should have size > 0 after adding an SKU";
     }
 
@@ -53,7 +56,13 @@ public class SKUList {
      * @param skuID The unique alphanumeric identifier of the SKU to be removed.
      */
     public void deleteSKU(String skuID) {
-        skuList.removeIf(sku -> sku.getSKUID().equals(skuID));
+        boolean isRemoved = skuList.removeIf(sku -> sku.getSKUID().equals(skuID));
+
+        if (isRemoved) {
+            LOGGER.log(Level.INFO, "Successfully deleted SKU: [" + skuID + "]");
+        } else {
+            LOGGER.log(Level.WARNING, "Attempted to delete non-existent SKU: [" + skuID + "]");
+        }
     }
 
     /**
