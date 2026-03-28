@@ -10,7 +10,7 @@ import java.util.Map;
  * </ul>
  */
 
-//@@author dorndorn54
+//@@author AkshayPranav19
 public class ParsedCommand {
 
     private final String commandWord;
