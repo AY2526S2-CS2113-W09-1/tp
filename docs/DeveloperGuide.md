@@ -6,6 +6,37 @@
 
 ## Design
 
+### Architecture
+
+ItemTasker follows a layered architecture with clear separation of concerns:
+
+![Architecture Diagram](plantUML/command/command-runner-architecture.png)
+
+**Component Relationships:**
+
+The diagram shows the main components and their relationships:
+
+- **Ui** handles all user interface interactions
+- **Parser** transforms raw input into structured `ParsedCommand` objects
+- **CommandRunner** dispatches commands to the appropriate handler
+- **SkuCommandHandler** manages SKU-level commands (`addsku`, `editsku`, `deletesku`)
+- **TaskCommandHandler** manages task-level commands (`addskutask`, `edittask`, `deletetask`, `marktask`, `unmarktask`, `sorttasks`)
+- **ViewCommandHandler** manages read-only commands (`listtasks`, `find`)
+- **CommandHelper** and **DateValidator** provide shared validation utilities
+- **TaskSorter** sorts tasks by date, priority, or completion status
+- **SKUList** contains multiple **SKU** instances (1-to-many relationship)
+- **SKU** contains one **SKUTaskList** which holds multiple **SKUTask** instances (1-to-many relationship)
+- **Storage** handles JSON persistence of the warehouse state
+- **Export** writes a human-readable inventory snapshot to a text file
+
+*Note: The multiplicity notation "1" → "\*" indicates a one-to-many relationship in UML. For example, one SKUList can contain zero or more SKUs, and one SKUTaskList can contain zero or more SKUTasks.*
+
+**Key Design Principles:**
+
+- **Single Responsibility**: Each handler class owns exactly one category of commands
+- **Command Delegation**: `CommandRunner` acts purely as a dispatcher with no business logic
+- **Encapsulation**: Each `SKU` owns its own `SKUTaskList` — no external maps or redundant data structures
+- **Layered Architecture**: UI → Logic → Model → Storage separation
 ## Implementation
 
 ### Add / Delete SKU Feature
