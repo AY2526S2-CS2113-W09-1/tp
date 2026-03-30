@@ -21,6 +21,8 @@ public class ItemTasker {
      * @throws IOException If an error occurs during file loading or saving.
      */
     public static void main(String[] args) throws ItemTaskerException, IOException {
+        ItemTaskerLogger.setup();
+        
         SKUList skuList = new SKUList();
         Ui ui = new Ui();
         CommandRunner runner = new CommandRunner(skuList);
