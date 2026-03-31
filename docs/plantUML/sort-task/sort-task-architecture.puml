@@ -12,6 +12,7 @@ class CommandHelper LOGIC_COLOR {
   + {static} findSkuOrError(skuList, id): SKU
 }
 
+
 class TaskSorter LOGIC_COLOR {
   - sortedTasks: List<SKUTask>
   - sortField: String
@@ -50,9 +51,9 @@ class SKUTask MODEL_COLOR_T3 {
 TaskCommandHandler -down-> "1" SKUList : skuList
 TaskCommandHandler ..> TaskSorter : creates
 TaskCommandHandler ..> CommandHelper : uses
-CommandHelper ..> SKUList : queries
 SKUList -down-> "*" SKU : skuList
 SKU -down-> "1" SKUTaskList : skuTaskList
 SKUTaskList -down-> "*" SKUTask : skuTaskList
 TaskSorter ..> SKUTask : sorts
+
 @enduml
