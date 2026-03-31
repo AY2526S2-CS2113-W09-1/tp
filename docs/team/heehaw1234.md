@@ -4,6 +4,9 @@
 
 ItemTasker is a desktop application used for managing stock-keeping units (SKUs) and their associated tasks efficiently. The user interacts with it using a CLI (Command Line Interface). It is written in Java and helps users streamline their inventory and task management workflows.
 
+### Overview
+I was primarily responsible for the core task data model (`SKUTask`, `SKUTaskList`, `Priority`), the `find` command search logic, and the SKUTask component documentation in the Developer Guide. I also contributed to project infrastructure such as logging, assertions, and repository hygiene.
+
 Given below are my contributions to the project.
 
 ### Summary of Contributions
@@ -25,7 +28,7 @@ Given below are my contributions to the project.
 * **Code contributed**: [RepoSense link](https://nus-cs2113-ay2526-s2.github.io/tp-dashboard/?search=heehaw1234&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2026-02-20T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
 
 * **Enhancements to existing features**:
-  * Set up logging infrastructure via `ItemTaskerLogger` to debug file handler states and capture runtime output.
+  * Set up logging infrastructure via `ItemTaskerLogger`, which suppresses red `stderr` log output in the CLI by redirecting logs to a file handler — improving user experience when running the `.jar`.
   * Wrote comprehensive JUnit tests for `SKUTaskTest`, `SKUTaskListTest`, and `FindCommandTest` to verify core operations and edge cases in parsing and data storage.
 
 * **Documentation**:
@@ -38,5 +41,22 @@ Given below are my contributions to the project.
     * Created and integrated multiple PlantUML diagrams (`skutask-architecture.puml`, `addTaskSequence.puml`, `deleteTaskSequence.puml`, `settersSequence.puml`, `gettersSequence.puml`) to visually represent the interaction between the `Ui`, `TaskCommandHandler`, and `CommandHelper`.
     * Kept architectural diagrams up to date by tracking the transition of logic from `CommandRunner` to `TaskCommandHandler` & `ViewCommandHandler`.
 
+* **Contributions to team-based tasks**:
+  * Added assertion flags (`-ea`) to `build.gradle` for both `run` and `test` configurations to enforce defensive programming across the project.
+  * Maintained `.gitignore` to exclude `Data/storage.json`, `*.log`, and `*.lck` files, preventing local runtime artifacts from polluting the repository.
+  * Managed `storage.json` tracking issues (removing it from version control and clearing committed copies).
+
+* **Review/mentoring contributions**:
+  * <!-- TODO: PRs reviewed (with non-trivial review comments): e.g. #12, #32, #19 -->
+  * <!-- TODO: Add instances of helping team members, e.g. helped debug X issue for teammate -->
+
 * **Community**:
-  * Diligently managed GitHub pull request alignments and merged documentation refactors to ensure the repository remains functional.
+  * Managed GitHub pull request alignments and merged documentation refactors to ensure the repository remains functional.
+  * <!-- TODO: Notable PRs authored: e.g. #45, #96, #112 — link to your significant PRs -->
+  * <!-- TODO: Issues created on GitHub: e.g. filed issues #XX, #YY for tracking bugs or enhancements -->
+  * <!-- TODO: Bugs filed: e.g. reported and tracked bugs #XX, #YY -->
+
+* **Contributions beyond the project team**:
+  * <!-- TODO: Add evidence of helping others, e.g. forum responses (examples: 1, 2, 3) -->
+  * <!-- TODO: Add bug reports for other teams during PE, e.g. Reported bugs and suggestions for other teams (examples: 1, 2, 3) -->
+  * <!-- TODO: Remove this section entirely if you have nothing to add -->
