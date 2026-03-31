@@ -35,7 +35,6 @@ delete and recreate a SKU (losing all task history) just to update a location.
 
 **Code**: `SKUCommandHandler#handleEditSku`, `SKU#setLocation`
 
----
 
 **2. Edit Task (`edittask`)**
 
@@ -60,7 +59,6 @@ commands concise.
 **Code**: `TaskCommandHandler#handleEditTask`, `SKUTaskList#editSKUTask`,
 `DateValidator`
 
----
 
 **3. Mark / Unmark Task (`marktask`, `unmarktask`)**
 
@@ -85,7 +83,6 @@ feedback.
 **Code**: `TaskCommandHandler#handleMarkTask`, `TaskCommandHandler#handleUnmarkTask`,
 `SKUTaskList#markTask`, `SKUTaskList#unmarkTask`, `SKUTask#mark`, `SKUTask#unmark`
 
----
 
 **4. Sort Tasks (`sorttasks`)**
 
@@ -113,16 +110,11 @@ and `edittask` for strict `YYYY-MM-DD` date validation — two-stage check
 (regex format match, then `LocalDate.parse()` to catch impossible calendar
 dates like Feb 30). Reused across the codebase by other handlers as well.
 
----
 
 ### Contributions to the User Guide
 
-- `editsku`, `edittask`, `marktask`, `unmarktask`, `sorttasks` command sections
-  (format, constraints, examples)
-- Full FAQ section (7 questions covering data transfer, autosave, location
-  constraints, distance calculation, JSON corruption, multi-field editing,
-  and viewmap vs status)
-- Command Summary table
+1. **FAQ section**: Wrote 1 question covering multi-field task editing with `edittask`
+2. **Command Summary table**: Full cheat sheet of all 16 commands with format and examples
 
 ### Contributions to the Developer Guide
 
@@ -221,6 +213,7 @@ Given below is an example usage scenario for the Edit SKU mechanism.
 ![Edit Task Sequence Diagram](../plantUML/edit-task/edit-task-sequence.png)
 
 ![Edit Task Architecture Class Diagram](../plantUML/edit-task/edit-task-architecture.png)
+
 
 ---
 
