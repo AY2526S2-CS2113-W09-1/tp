@@ -112,7 +112,7 @@ your `storage.json` file before doing any manual tweaking.
 
 ## Contributions to the Developer Guide (Extracts)
 
-Below is a 1:1 extract pulled from the Developer Guide, note that only a portion is made available here due to page limits.
+Below is are 1:1 extracts pulled from the Developer Guide, note that only a portion is made available here due to page limits.
 
 ### SKU component
 
@@ -120,18 +120,6 @@ Below is a 1:1 extract pulled from the Developer Guide, note that only a portion
 
 ![Diagram](../diagrams/component-sku/component-sku-diagram.png)
 
-The `SKU` component,
-
-* stores the data i.e., all `SKU` objects (which are contained in a central `SKUList` object).
-* enforces data integrity at the domain level. The `SKUList` ensures that no duplicate SKU IDs exist within the
-  warehouse, and the `SKU` constructor normalizes all IDs (trimming whitespace and converting to uppercase) while
-  guaranteeing a mandatory valid `Location` is assigned.
-* encapsulates task management by having each `SKU` object independently own and automatically initialize its
-  own `SKUTaskList` upon creation. This establishes a strict object-oriented boundary where a SKU is solely responsible
-  for its associated tasks.
-* does not depend on any of the other main components (such as **`UI`**, **`Logic`**, or **`Storage`**). As the `SKU`
-  component represents the core data entities of the domain, it makes sense on its own without depending on external
-  execution or presentation layers.
 
 ### Storage component
 
@@ -139,17 +127,6 @@ The `SKU` component,
 
 ![Diagram](../diagrams/component-storage/component-storage-diagram.png)
 
-The `Storage` component,
-
-* can save the warehouse inventory data (the entire `SKUList` hierarchy, including SKUs, SKUTaskLists, and SKUTasks) in
-  JSON format to the hard disk, and read it back into the corresponding objects.
-* can export the current warehouse state into a formatted, human-readable text file (`ItemTasker_Export.txt`) for
-  reporting purposes.
-* gracefully handles missing directories by automatically creating the required `Data/` folder upon saving or exporting.
-* guards against corrupted or outdated data files during the loading sequence to prevent application crashes.
-* depends on classes in the `sku` and `skutask` components (because the Storage component's job is to save, retrieve,
-  and parse objects that represent the data of the App in memory).
-* utilizes the external Gson library for all JSON serialization and deserialization processes.
 
 <div style="page-break-after: always;"></div>
 
@@ -161,46 +138,6 @@ The Add and Delete SKU mechanism is facilitated by the `SKUCommandHandler` compo
 the `CommandRunner`. It manages the application's core state through a single primary data structure: the `SKUList`.
 Following object-oriented encapsulation principles, there are no external maps; each `SKU` manages its
 own `SKUTaskList`.
-
-The operations are exposed and handled internally via the following methods:
-
-* `SKUCommandHandler#handleAddSku(ParsedCommand)` — Validates arguments (ensuring they are not null or empty), checks
-  for duplicates, and delegates to `SKUList` to instantiate a new `SKU` (which automatically initializes its own
-  internal task list).
-* `SKUCommandHandler#handleDeleteSku(ParsedCommand)` — Validates the input, ensures the target SKU exists, and removes
-  the `SKU` from the inventory, which deletes purges all tasks associated with it.
-
-Given below is an example usage scenario demonstrating how the Add SKU mechanism behaves at each step.
-
-**Step 1.** The user executes `addsku n/PALLET-A l/A1`. The `Ui` reads the input, and the `Parser` extracts the command
-word and maps the arguments `n/` to `PALLET-A` and `l/` to `A1` into a `ParsedCommand` object.
-
-**Step 2.** The `CommandRunner#run()` method receives this `ParsedCommand`. Recognizing the `addsku` command word, it
-routes execution to the dedicated `SKUCommandHandler#handleAddSku()`.
-
-**Step 3.** `handleAddSku()` performs validations, checking for missing or empty arguments. It
-calls `CommandHelper.parseLocation("A1")` to resolve the `Location` enum. It then calls `skuList.findByID("PALLET-A")`
-to iterate through the `SKUList`. If no duplicates are found, it proceeds with the insertion.
-
-![Steps 1 to 3](../diagrams/add-delete-sku/add-sku-step1-3.png)
-
-**Step 4.** The `SKUList#addSKU()` method is invoked. This method acts as a secondary defensive barrier, checking inputs
-before calling the `SKU` constructor. During instantiation, the `SKU` normalizes its ID (trimming whitespace and forcing
-uppercase) and automatically generates an empty `SKUTaskList` for itself. The `SKU` is then appended to the
-internal `ArrayList`.
-
-![Step 4](../diagrams/add-delete-sku/add-sku-step4.png)
-
-**Step 5.** Back in `handleAddSku()`, execution completes successfully. Control returns to the `Ui` to print the success
-message. The system's memory state now contains the new `SKU`, fully equipped to accept tasks without requiring any
-external mapping.
-
-![Step 5](../diagrams/add-delete-sku/add-sku-step5.png)
-
-*Note: The `deletesku` command operates by routing to `SKUCommandHandler#handleDeleteSku()`, which validates the input
-and throws a `SKUNotFoundException` if the target does not exist. It then calls `SKUList#deleteSKU()` to perform a
-case-insensitive removal from the array. Due to encapsulation, dropping the `SKU` object automatically garbage-collects
-its associated `SKUTaskList`, preventing memory leaks.*
 
 The following sequence diagram shows the flow of adding a SKU:
 
