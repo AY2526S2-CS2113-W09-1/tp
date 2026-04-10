@@ -36,13 +36,9 @@ Authored Q&A segments on saving, data-transfer, and implementation, translating 
 
 ### Contributions to the Developer Guide (DG)
 
-#### SKU Component
+#### SKU & Storage Components
 
-Created all UML diagrams and architectural explanations for the SKU component under Design.
-
-#### Storage Component
-
-Created all UML diagrams and architectural explanations for the Storage component under Design.
+Created all UML diagrams and architectural explanations for the SKU & Storage component under Design.
 
 #### Add / Delete SKU Enhancement
 
@@ -55,7 +51,7 @@ Wrote **Appendix A: Product Scope**, **Appendix D: Glossary**, and **Appendix E:
 ### Contributions to Team-Based Tasks
 
 1. **Repository & Releases:** Established GitHub organization, branch protection rules, and deployed v1.0/v2.0/v2.1 milestone releases.
-2. **Workflow:** Standardized issue templates and labeling conventions across the team for Tasks/Bugs.
+2. **Workflow:** Standardized issue templates and labeling conventions across the team for Tasks/Bugs. Delegated PE-D bugs amongst the team for quicker turnaround for submission.
 3. **Project Management:** Coordinated non-feature documentation (Product Scope, User Profile) and managed project timelines with safety buffers for the team.
 
 ### Review and Mentoring Contributions
