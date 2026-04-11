@@ -6,7 +6,7 @@ skinparam classAttributeIconSize 0
 class CommandRunner LOGIC_COLOR {
     - isRunning : boolean
     - skuList : SKUList
-    - skuHandler : SkuCommandHandler
+    - skuHandler : SKUCommandHandler
     - taskHandler : TaskCommandHandler
     - viewHandler : ViewCommandHandler
     + CommandRunner(skuList : SKUList)
@@ -19,7 +19,7 @@ class ParsedCommand LOGIC_COLOR_T1 {
     + getCommandWord() : String
 }
 
-class SkuCommandHandler LOGIC_COLOR_T2 {
+class SKUCommandHandler LOGIC_COLOR_T2 {
     + handleAddSku(cmd : ParsedCommand) : void
     + handleEditSku(cmd : ParsedCommand) : void
     + handleDeleteSku(cmd : ParsedCommand) : void
@@ -31,11 +31,13 @@ class TaskCommandHandler LOGIC_COLOR_T2 {
     + handleDeleteTask(cmd : ParsedCommand) : void
     + handleMarkTask(cmd : ParsedCommand) : void
     + handleUnmarkTask(cmd : ParsedCommand) : void
+    + handleSortTask(cmd : ParsedCommand) : void
 }
 
 class ViewCommandHandler LOGIC_COLOR_T2 {
     + handleListTasks(cmd : ParsedCommand) : void
     + handleFind(cmd : ParsedCommand) : void
+    + handleStatus(cmd : ParsedCommand) : void
 }
 
 class SKUList MODEL_COLOR {
@@ -62,7 +64,7 @@ class Ui UI_COLOR {
     + {static} printError(msg : String) : void
 }
 
-CommandRunner -down-> "1" SkuCommandHandler : skuHandler
+CommandRunner -down-> "1" SKUCommandHandler : skuHandler
 CommandRunner -down-> "1" TaskCommandHandler : taskHandler
 CommandRunner -down-> "1" ViewCommandHandler : viewHandler
 CommandRunner -right-> "1" SKUList : skuList
