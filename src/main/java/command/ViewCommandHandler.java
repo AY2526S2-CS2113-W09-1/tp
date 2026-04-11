@@ -49,16 +49,12 @@ public class ViewCommandHandler {
      */
     public void handleListTasks(ParsedCommand cmd) throws MultipleFilterException, InvalidFilterException {
         assert cmd != null : "ParsedCommand should not be null";
+
+        CommandHelper.validateFlags(cmd, "n", "p", "l");
+
         String skuFilter = cmd.getArg("n");
         String priorityFilter = cmd.getArg("p");
         String locationFilter = cmd.getArg("l");
-
-        for (String flag : cmd.getAllFlags()) {
-            if (!flag.equals("n") && !flag.equals("p") && !flag.equals("l")) {
-                logger.log(Level.WARNING, "Unrecognized flag detected: {0}", flag);
-                throw new InvalidFilterException("Unknown flag '" + flag + "/'. Only n/, p/, and l/ are allowed.");
-            }
-        }
 
         if (skuFilter != null && skuFilter.trim().isEmpty()) {
             throw new InvalidFilterException("The SKU name after n/ cannot be empty.");
@@ -181,12 +177,7 @@ public class ViewCommandHandler {
     public void handleStatus(ParsedCommand cmd) throws InvalidFilterException {
         assert cmd != null : "ParsedCommand should not be null";
 
-        for (String flag : cmd.getAllFlags()) {
-            if (!flag.equals("n")) {
-                logger.log(Level.WARNING, "Unrecognized flag in status command: {0}", flag);
-                throw new InvalidFilterException("Unknown flag '" + flag + "/'. For status, only n/ is allowed.");
-            }
-        }
+        CommandHelper.validateFlags(cmd, "n");
 
         String skuFilter = cmd.getArg("n");
         SKUStatusAnalyzer analyzer = new SKUStatusAnalyzer();
@@ -233,8 +224,10 @@ public class ViewCommandHandler {
      *                                  is out of range.
      */
     public void handleFind(ParsedCommand cmd) throws MissingArgumentException, SKUNotFoundException,
-            InvalidIndexException {
+            InvalidIndexException, InvalidFilterException {
         assert cmd != null : "ParsedCommand should not be null";
+
+        CommandHelper.validateFlags(cmd, "n", "t", "i");
 
         String skuFilter = cmd.getArg("n");
         String descFilter = cmd.getArg("t");
@@ -249,10 +242,6 @@ public class ViewCommandHandler {
         int taskIndex = -1;
         if (indexStr != null) {
             taskIndex = CommandHelper.parseIndex(indexStr);
-            if (taskIndex <= 0) {
-                logger.log(Level.WARNING, "Invalid task index provided: {0}", indexStr);
-                throw new InvalidIndexException(indexStr);
-            }
         }
 
         List<String> results = searchTasks(skuFilter, descFilter, taskIndex);

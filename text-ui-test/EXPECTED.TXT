@@ -68,7 +68,7 @@ __________________________________________________________________________
 >  [INFO] Task #1 for SKU [PALLET-A] is already unmarked.
 > >  [ERROR] Task index 99 is out of range for SKU: PALLET-A
 >  [ERROR] SKU not found: GHOST-SKU
->  [ERROR] Task index must be a number, got: 'abc'
+>  [ERROR] Invalid task index provided: abc. Please provide a valid positive integer.
 > >  All tasks:
 __________________________________________________________________________
  SKU [PALLET-A]:
