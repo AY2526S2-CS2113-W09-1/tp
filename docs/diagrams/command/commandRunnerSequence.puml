@@ -4,7 +4,7 @@
 Participant "Main" as main LOGIC_COLOR
 Participant ":CommandRunner" as runner LOGIC_COLOR
 Participant ":ParsedCommand" as cmd LOGIC_COLOR_T1
-Participant ":SkuCommandHandler" as skuHandler LOGIC_COLOR_T2
+Participant ":SKUCommandHandler" as skuHandler LOGIC_COLOR_T2
 Participant ":TaskCommandHandler" as taskHandler LOGIC_COLOR_T2
 Participant ":ViewCommandHandler" as viewHandler LOGIC_COLOR_T2
 Participant ":Storage" as storage STORAGE_COLOR
@@ -15,9 +15,12 @@ Participant ":Ui" as ui UI_COLOR
 
 main -> runner ++ : new CommandRunner(skuList)
 
-runner -> runner : new SkuCommandHandler(skuList)
-runner -> runner : new TaskCommandHandler(skuList)
-runner -> runner : new ViewCommandHandler(skuList)
+runner -> runner ++ : new SKUCommandHandler(skuList)
+return
+runner -> runner ++ : new TaskCommandHandler(skuList)
+return
+runner -> runner ++ : new ViewCommandHandler(skuList)
+return
 
 runner -> storage ++ : loadState(skuList)
 return
@@ -40,6 +43,7 @@ else commandWord = "editsku"
 else commandWord = "deletesku"
     runner -> skuHandler ++ : handleDeleteSku(cmd)
     return
+else
 end
 
 return
@@ -66,6 +70,10 @@ else commandWord = "marktask"
 else commandWord = "unmarktask"
     runner -> taskHandler ++ : handleUnmarkTask(cmd)
     return
+else commandWord = "sorttasks"
+    runner -> taskHandler ++ : handleSortTask(cmd)
+    return
+else
 end
 
 return
@@ -83,6 +91,9 @@ alt commandWord = "listtasks"
 else commandWord = "find"
     runner -> viewHandler ++ : handleFind(cmd)
     return
+else commandWord = "status"
+    runner -> viewHandler ++ : handleStatus(cmd)
+    return
 else commandWord = "export"
     runner -> runner ++ : handleExport()
     return
@@ -98,7 +109,7 @@ else commandWord = "bye" / "exit"
     runner -> runner : isRunning = false
 else commandWord = ""
     note right : no-op
-else unknown
+else
     runner -> ui : printUnknownCommand(commandWord)
 end
 
