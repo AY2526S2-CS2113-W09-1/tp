@@ -90,7 +90,11 @@ The sequence diagrams below illustrate the dispatch lifecycles for the different
 
 **Command Dispatch Sequence for SKU commands**
 
+<div style="page-break-after: always;"></div>
+
 ![CommandRunner Sequence Diagram — SKU commands](diagrams/command/commandRunnerSequence-runSku.png)
+
+<div style="page-break-after: always;"></div>
 
 **Command Dispatch Sequence for Task commands**
 
@@ -250,6 +254,8 @@ Here are the other interactions in the SKUTask component (omitted from the seque
 
 ![Setters Sequence Diagram](diagrams/skutask-operations/settersSequence.png)
 
+<div style="page-break-after: always;"></div>
+
 **Property Retrieval (Getters)**
 
 ![Getters Sequence Diagram](diagrams/skutask-operations/gettersSequence.png)
@@ -359,6 +365,8 @@ Given below is an example usage scenario demonstrating how the Add SKU mechanism
 
 *Note: The `deletesku` command operates by routing to `SKUCommandHandler#handleDeleteSku()`, which validates the input and throws a `SKUNotFoundException` if the target does not exist. It then calls `SKUList#deleteSKU()` to perform a case-insensitive removal from the array. Due to encapsulation, dropping the `SKU` object automatically garbage-collects its associated `SKUTaskList`, preventing memory leaks.*
 
+<div style="page-break-after: always;"></div>
+
 The following sequence diagram shows the flow of adding a SKU:
 
 ![Sequence Diagram](diagrams/add-delete-sku/add-sku-sequence.png)
@@ -425,6 +433,8 @@ The following sequence diagram illustrates reading properties from the objects f
 
 ![Getters Sequence Diagram](diagrams/skutask-operations/gettersSequence.png)
 
+<div style="page-break-after: always;"></div>
+
 The following class diagram shows the architecture connecting the `CommandRunner` down to the `SKUTask` instances:
 
 ![SKU Task Architecture Class Diagram](diagrams/skutask-operations/skutask-architecture.png)
@@ -469,6 +479,8 @@ Given below is an example usage scenario for the Edit SKU mechanism.
 The following sequence diagram shows the flow of editing a SKU:
 
 ![Edit SKU Sequence Diagram](diagrams/edit-sku/edit-sku-sequence.png)
+
+<div style="page-break-after: always;"></div>
 
 The following class diagram shows the architecture:
 
